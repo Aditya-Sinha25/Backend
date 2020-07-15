@@ -1,6 +1,5 @@
 
     <body>
-        <h1>Codeial/<%= title %></h1>
 
         <section id="feed-posts">
             <h4>Posts</h4>
@@ -10,18 +9,45 @@
                     <input type="submit" value="POST">
                 </form>
             <%} %>
+
+            <div id="posts-list-container">
+                <ul>
+                    <% for(post of posts){ %>
+                        <li>
+                            <p>
+                                <%= post.content %>
+                                <br>
+                                <small>
+                                    <%= post.user.name %>
+                                </small>
+                            </p>
+                            <div class="post-comments">
+                                <% if(locals.user) { %> 
+                                    <form action="/comments/create" method="POST">
+                                        <input type="text" name="content" placeholder="comment">
+                                        <input type="hidden" name="post" value="<%= post._id %>">
+                                        <input type= "submit" value="Add comment">
+                                    </form>
+                                <% } %>
+
+                                <div class="post-comment-list">
+                                    <ul id="posts-comments-<%= post._id %>">
+                                        <% for(comment of post.comments) { %> 
+                                            <p>
+                                                <%= comment.content %>
+                                                <br>
+                                                <small>
+                                                    <%= comment.user.name %>
+                                                </small>
+                                            </p>
+                                        <% } %>
+                                    </ul>
+                                </div>
+                            </div>
+                        </li>
+                    <%} %>
+                </ul>
+            </div>
+
         </section>
-        <div id="posts-list-container">
-            <ul>
-                <% for(post of posts){ %>
-                    <li>
-                        <%= post.content %>
-                        <br>
-                        <small>
-                            <%= post.user.name %>
-                        </small>
-                    </li>
-                <%} %>
-            </ul>
-        </div>
     </body>
